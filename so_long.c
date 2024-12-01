@@ -1,50 +1,52 @@
-#include "so_long.h"
+#include "../includes/so_long.h"
 #include <X11/keysym.h>
 #include <mlx.h>
 #include "../libft/libft.h"
 #include <fcntl.h>
 
-
-int     key_inputs(int keysym, t_mlx_data *data)
+int    close_window(t_game *game)
 {
-    if (keysym == XK_Escape)
-        close_window(data);
-    return (0);
+    mlx_destroy_window(game->mlx_data.mlx, game->mlx_data.win);
+    mlx_destroy_display(game->mlx_data.mlx);
+    free(game->mlx_data.mlx);
+    exit(1);
 }
 
-void    close_window(t_mlx_data *data)
+int     key_inputs(int keysym, t_game *game)
 {
-    mlx_destroy_window(data->mlx, data->win);
-    mlx_destroy_display(data->mlx);
-    free(data->mlx);
-    exit(1);
+    if (keysym == XK_Escape)
+        close_window(game);
+    return (0);
 }
 
 int     check_args(int argc, char **argv)
 {
     if (argc != 2)
     {
-        ft_printf("Wrong Number of Arguments :(\n)");
+        ft_printf("Wrong Number of Arguments :(\n");
         return 0;
     }
     if (ft_strncmp(".ber",ft_substr(argv[1], ft_strlen(argv[1]) - 4, 4),4))
     {
-        ft_printf("Invalid File Type :(\n)");
+        ft_printf("Invalid File Type :(\n");
         return 0;
     }
     if (open(argv[1], O_RDONLY) == -1)
     {
-        ft_printf("Map File not found :(\n)");
+        ft_printf("Map File not found :(\n");
         return 0;
     }
+    return 1;
 }
-    
 
-    
+void read_map(t_game game)
+{
+    game.player.img_h = 1;
+}
 
 int     main(int argc, char **argv)
 {
-    t_mlx_data mlx_data;
+    t_mlxdata mlx_data;
     t_game  game;
     int map_fd;
 
@@ -65,7 +67,7 @@ int     main(int argc, char **argv)
         return (-1);
     }
     mlx_key_hook(mlx_data.win, key_inputs, &mlx_data);
-    mlx_hook(mlx_data.win, 17, 0, close_window, &mlx_data);
+    mlx_hook(game.mlx_data.win, 17, 0, close_window, &game);
     mlx_loop(mlx_data.mlx);
     return (0);
 }

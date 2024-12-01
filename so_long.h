@@ -1,19 +1,6 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-typedef struct s_game
-{
-    t_map   map;
-    t_image border;
-    t_image wall;
-    t_image player;
-    t_image collect;
-    t_image enemy;
-    t_image bckgrnd;
-    
-
-} t_game;
-
 typedef struct s_map
 {
     char    *map;
@@ -29,10 +16,23 @@ typedef struct s_image
 
 } t_image;
 
-typedef struct s_mlx_data
+typedef struct s_mlxdata
 {
     void	*mlx;
     void	*win;
-}               t_mlx_data;
+}               t_mlxdata;
+
+typedef struct s_game
+{
+    t_mlxdata mlx_data;
+    t_map   map;
+    t_image border;
+    t_image wall;
+    t_image player;
+    t_image collect;
+    t_image enemy;
+    t_image bckgrnd;
+} t_game;
+
 
 #endif
