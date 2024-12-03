@@ -14,6 +14,7 @@ void destroy_images(t_game *game)
     mlx_destroy_image(game->mlx_data.mlx, game->collect.img_ptr);
     mlx_destroy_window(game->mlx_data.mlx, game->mlx_data.win);
 }
+
 void    free_map(t_game *game)
 {
     int i = 0;
@@ -41,30 +42,30 @@ int     key_inputs(int keysym, t_game *game)
     return (0);
 }
 
-int     check_args(int argc, char **argv)
+void     check_args(int argc, char **argv)
 {
     char *tmp;
 
     if (argc != 2)
     {
         ft_printf("Wrong Number of Arguments :(\n");
-        return 0;
+        exit(-1);
     }
     tmp = ft_substr(argv[1], ft_strlen(argv[1]) - 4, 4);
     if (ft_strncmp(".ber", tmp,4))
     {
         ft_printf("Invalid File Type :(\n");
         free(tmp);
-        return 0;
+        exit(-1);
     }
     if (open(argv[1], O_RDONLY) == -1)
     {
         ft_printf("Map File not found :(\n");
         free(tmp);
-        return 0;
+        exit(-1);
     }
     free(tmp);
-    return 1;
+    exit(-1);
 }
 
 void    read_map(t_game *game)
@@ -117,7 +118,7 @@ void    tile_to_print(t_game *game, int i, int j)
     else if (game->map.map[i][j] == 'E')
         game->tile.img_ptr = game->exit.img_ptr;
     else if (game->map.map[i][j] == 'C')
-        game->tile.img_ptr = game->collect.img_ptr; 
+        game->tile.img_ptr = game->collect.img_ptr;
 }
 
 void    render_map(t_game *game)
@@ -140,11 +141,11 @@ void    render_map(t_game *game)
     }
 }
 
-int     initialize_mlx(t_game *game)
+void     initialize_mlx(t_game *game)
 {
-    game->mlx_data.mlx = mlx_init();  
+    game->mlx_data.mlx = mlx_init();
 	if (!game->mlx_data.mlx)
-		return (-1);
+		exit (-1);
 	game->mlx_data.win = mlx_new_window(game->mlx_data.mlx,
 								game->map.cols * 32,
 								game->map.rows * 32,
@@ -153,7 +154,7 @@ int     initialize_mlx(t_game *game)
     {
         mlx_destroy_display(game->mlx_data.mlx);
         free(game->mlx_data.mlx);
-        return (-1);
+        exit (-1);
     }
 }
 
@@ -169,14 +170,14 @@ void    check_borders(t_game *game)
     i = 0;
     while (i < game->map.rows)
         if(game->map.map[i][0] != '1' || game->map.map[i++][game->map.cols - 1] != '1' )
-            exit(1);
+            exit(-1);
 }
 
 void    check_counts(t_game *game)
 {
     int i;
     int j;
-    
+
     game->map.players = 0;
     game->map.exits = 0;
     game->map.collectibles = 0;
@@ -217,6 +218,7 @@ int check_map(t_game *game)
             check_borders(game);
             check_counts(game);
             //check_nulls()???
+            //check_rectangle;??
             // check_exit();
             // check_collectible();
             // check_valid_path();
@@ -231,12 +233,10 @@ int     main(int argc, char **argv)
     t_game  game;
     int map_fd;
 
-    // if(!check_args(argc, argv))
-    //     return -1;
+    check_args(argc, argv);
+    initialize_mlx(&game);
     read_map(&game);
     check_map(&game);
-	if (initialize_mlx(&game) == -1)
-        return (-1);
     render_map(&game);
     mlx_key_hook(game.mlx_data.win, key_inputs, &game);
     mlx_hook(game.mlx_data.win, 17, 0, close_window, &game);

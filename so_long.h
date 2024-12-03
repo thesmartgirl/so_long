@@ -1,6 +1,14 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+typedef enum e_error_code
+{
+    no_error = 0,
+    general_error = -1,
+    arg_err = -2,
+    map_error = -3,
+} t_error_code;
+
 typedef struct s_map
 {
     char    **map;
@@ -9,7 +17,7 @@ typedef struct s_map
     int     exits;
     int     players;
     int     collectibles;
-    
+
 } t_map;
 
 typedef struct s_image
