@@ -35,10 +35,42 @@ int    close_window(t_game *game)
     exit(0);
 }
 
+void move_player(t_game game, char direction)
+{
+    int new_y;
+    int new_x;
+
+    if(direction == 'U')
+    {
+      new_y = game->player.ypos - 1;
+      if(game->map.map[game->player.xpos][new_y] == 0)
+      {
+        //print bckgrnd in old pos
+        mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+                                game->bckgrnd.img_ptr,
+                                (32 * game->player.ypos),
+                                (game->player.xpos * 32));
+        game->player.ypos -=1 ;
+        mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+                                game->player.image.img_ptr,
+                                (32 * game->player.ypos),
+                                (game->player.xpos * 32));
+      }
+    }
+}
+
 int     key_inputs(int keysym, t_game *game)
 {
     if (keysym == XK_Escape)
         close_window(game);
+    else if (keysym == XK_Up) //XK_A
+        move_player(game, 'U');
+    else if (keysym == XK_Down)
+        move_player(game, 'D');
+    else if (keysym == XK_Right)
+        move_player(game, 'R');
+    else if (keysym == XK_Leftt)
+        move_player(game, 'L');
     return (0);
 }
 
@@ -72,6 +104,9 @@ void    read_map(t_game *game)
 {
     game->map.rows = 7;
     game->map.cols = 16;
+    game->map.players = 0;
+    game->map.exits = 0;
+    game->map.collectibles = 0;
     game->map.map = malloc((game->map.rows + 1) * sizeof(char *));
     game->map.map[0] = ft_strdup("1111111111111111");
     game->map.map[1] = ft_strdup("1010010000100001");
@@ -178,54 +213,35 @@ void    check_counts(t_game *game)
     int i;
     int j;
 
-    game->map.players = 0;
-    game->map.exits = 0;
-    game->map.collectibles = 0;
     i = 0;
-        ft_printf("%d %d \n",game->map.rows, game->map.cols );
     while (i < game->map.rows)
     {
         j = 0;
         while(j < game->map.cols)
         {
-            ft_printf("%d %d\n", i, j);
             if(game->map.map[i][j] == 'P')
                 game->map.players++;
-            if(game->map.map[i][j] == 'C')
+            else if(game->map.map[i][j] == 'C')
                 game->map.collectibles++;
-            if(game->map.map[i][j] == 'E')
+            else if(game->map.map[i][j] == 'E')
                 game->map.exits++;
+            else if(game->map.map[i][j] != '1' && game->map.map[i][j] != '0')
+              exit(-1);
             j++;
         }
         i++;
     }
-    ft_printf("%d %d %d\n", game->map.players, game->map.exits, game->map.collectibles);
     if (game->map.players != 1 || game->map.exits != 1 || game->map.collectibles < 1)
         exit(-1);
 }
 
 int check_map(t_game *game)
 {
-    int i;
-    int j;
-
-    i = 0;
-    while (i < game->map.rows)
-    {
-        j = 0;
-        while(j < game->map.cols)
-        {
-            check_borders(game);
-            check_counts(game);
+    check_borders(game);
+    check_counts(game);
             //check_nulls()???
             //check_rectangle;??
-            // check_exit();
-            // check_collectible();
             // check_valid_path();
-            j++;
-        }
-        i++;
-    }
 }
 
 int     main(int argc, char **argv)

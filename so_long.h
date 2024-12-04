@@ -34,6 +34,14 @@ typedef struct s_mlxdata
     void	*win;
 }               t_mlx_data;
 
+typedef struct s_player
+{
+  t_image image;
+  int  xpos;
+  int  ypos;
+
+}               t_player;
+
 typedef struct s_game
 {
     t_mlx_data mlx_data;
@@ -41,7 +49,7 @@ typedef struct s_game
     t_image tile;
     t_image border;
     t_image wall;
-    t_image player;
+    t_player player;
     t_image collect;
     t_image exit;
     t_image enemy;
