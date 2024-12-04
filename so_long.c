@@ -85,22 +85,22 @@ void    read_map(t_game *game)
 
 void    init_images(t_game *game)
 {
-    game->border.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "../assets/border.xpm", &game->border.img_h, &game->border.img_w);
+    game->border.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/border.xpm", &game->border.img_h, &game->border.img_w);
     if (game->border.img_ptr== NULL)
 		ft_printf("Couldn't find border.xpm. Does it exist?");
-    game->bckgrnd.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "../assets/grass.xpm", &game->bckgrnd.img_h, &game->bckgrnd.img_w);
+    game->bckgrnd.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/grass.xpm", &game->bckgrnd.img_h, &game->bckgrnd.img_w);
     if (game->bckgrnd.img_ptr== NULL)
 		ft_printf("Couldn't find grass.xpm. Does it exist?");
-    game->wall.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "../assets/wall.xpm", &game->wall.img_h, &game->wall.img_w);
+    game->wall.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/wall.xpm", &game->wall.img_h, &game->wall.img_w);
     if (game->wall.img_ptr== NULL)
 		ft_printf("Couldn't find wall.xpm. Does it exist?");
-    game->player.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "../assets/ducky.xpm", &game->player.img_h, &game->player.img_w);
+    game->player.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/ducky.xpm", &game->player.img_h, &game->player.img_w);
     if (game->player.img_ptr== NULL)
 		ft_printf("Couldn't find ducky.xpm. Does it exist?");
-    game->exit.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "../assets/exit.xpm", &game->exit.img_h, &game->exit.img_w);
+    game->exit.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/exit.xpm", &game->exit.img_h, &game->exit.img_w);
     if (game->exit.img_ptr== NULL)
 		ft_printf("Couldn't find exit.xpm. Does it exist?");
-    game->collect.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "../assets/collect.xpm", &game->collect.img_h, &game->collect.img_w);
+    game->collect.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/collect.xpm", &game->collect.img_h, &game->collect.img_w);
     if (game->exit.img_ptr== NULL)
 		ft_printf("Couldn't find collect.xpm. Does it exist?");
 }
