@@ -1,4 +1,4 @@
-#include "../includes/so_long.h"
+#include "so_long.h"
 #include <X11/keysym.h>
 #include <mlx.h>
 #include "../libft/libft.h"
