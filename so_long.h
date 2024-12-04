@@ -40,6 +40,7 @@ typedef struct s_player
   int  i;
   int  j;
   int collected;
+  int moves;
 }               t_player;
 
 typedef struct s_game
