@@ -8,7 +8,7 @@ void destroy_images(t_game *game)
 {
     mlx_destroy_image(game->mlx_data.mlx, game->border.img_ptr);
     mlx_destroy_image(game->mlx_data.mlx, game->wall.img_ptr);
-    mlx_destroy_image(game->mlx_data.mlx, game->player.img_ptr);
+    mlx_destroy_image(game->mlx_data.mlx, game->player.image.img_ptr);
     mlx_destroy_image(game->mlx_data.mlx, game->bckgrnd.img_ptr);
     mlx_destroy_image(game->mlx_data.mlx, game->exit.img_ptr);
     mlx_destroy_image(game->mlx_data.mlx, game->collect.img_ptr);
@@ -35,42 +35,89 @@ int    close_window(t_game *game)
     exit(0);
 }
 
-void move_player(t_game game, char direction)
+void    move_vertical(t_game *game, int d)
 {
-    int new_y;
-    int new_x;
+        int     new_row;
 
-    if(direction == 'U')
-    {
-      new_y = game->player.ypos - 1;
-      if(game->map.map[game->player.xpos][new_y] == 0)
-      {
-        //print bckgrnd in old pos
-        mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
-                                game->bckgrnd.img_ptr,
-                                (32 * game->player.ypos),
-                                (game->player.xpos * 32));
-        game->player.ypos -=1 ;
-        mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
-                                game->player.image.img_ptr,
-                                (32 * game->player.ypos),
-                                (game->player.xpos * 32));
-      }
-    }
+        new_row = game->player.i + d;
+        printf("new %d old %d \n", new_row, game->player.i);
+        printf("%c \n", game->map.map[new_row][game->player.j]);
+        if (game->map.map[new_row][game->player.j] == '0')
+        {
+              mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+                                      game->bckgrnd.img_ptr, (32 * game->player.j),
+                                      (game->player.i * 32));
+              game->map.map[game->player.i][game->player.j] = '0';
+              game->player.i = new_row;
+              game->map.map[game->player.i][game->player.j] = 'P';
+              mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+                                      game->player.image.img_ptr, (32 * game->player.j),
+                                      (game->player.i * 32));
+         }
+         else if (game->map.map[new_row][game->player.j] == 'C')
+         {
+               mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+                                       game->bckgrnd.img_ptr, (32 * game->player.j),
+                                       (game->player.i * 32));
+               game->map.map[game->player.i][game->player.j] = '0';
+               game->player.i = new_row;
+               game->map.map[game->player.i][game->player.j] = 'P';
+               game->player.collected++;
+               printf("collectibles = %d\n", game->player.collected);
+               mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+                                       game->player.image.img_ptr, (32 * game->player.j),
+                                       (game->player.i * 32));
+         }
+}
+
+void    move_horizontal(t_game *game, int d)
+{
+        int     new_col;
+
+                new_col= game->player.j + d;
+                printf("new %d old %d \n", new_col, game->player.j);
+                printf("%c \n", game->map.map[game->player.i][new_col]);
+                if (game->map.map[game->player.i][new_col] == '0')
+                {
+                        mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+                                        game->bckgrnd.img_ptr, (32 * game->player.j),
+                                        (game->player.i * 32));
+                        game->map.map[game->player.i][game->player.j] = '0';
+                        game->player.j = new_col;
+                        game->map.map[game->player.i][game->player.j] = 'P';
+                        mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+                                        game->player.image.img_ptr, (32 * game->player.j),
+                                        (game->player.i * 32));
+                }
+                else if (game->map.map[game->player.i][new_col] == 'C')
+                {
+                      mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+                                              game->bckgrnd.img_ptr, (32 * game->player.j),
+                                              (game->player.i * 32));
+                      game->map.map[game->player.i][game->player.j] = '0';
+                      game->player.j = new_col;
+                      game->map.map[game->player.i][game->player.j] = 'P';
+                      game->player.collected++;
+                      printf("collectibles = %d\n", game->player.collected);
+                      mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+                                              game->player.image.img_ptr, (32 * game->player.j),
+                                              (game->player.i * 32));
+                }
+
 }
 
 int     key_inputs(int keysym, t_game *game)
 {
     if (keysym == XK_Escape)
         close_window(game);
-    else if (keysym == XK_Up) //XK_A
-        move_player(game, 'U');
+    else if (keysym == XK_Up)
+        move_vertical(game, -1);
     else if (keysym == XK_Down)
-        move_player(game, 'D');
+        move_vertical(game, 1);
     else if (keysym == XK_Right)
-        move_player(game, 'R');
-    else if (keysym == XK_Leftt)
-        move_player(game, 'L');
+        move_horizontal(game, 1);
+    else if (keysym == XK_Left)
+        move_horizontal(game, -1);
     return (0);
 }
 
@@ -107,6 +154,7 @@ void    read_map(t_game *game)
     game->map.players = 0;
     game->map.exits = 0;
     game->map.collectibles = 0;
+    game->player.collected = 0;
     game->map.map = malloc((game->map.rows + 1) * sizeof(char *));
     game->map.map[0] = ft_strdup("1111111111111111");
     game->map.map[1] = ft_strdup("1010010000100001");
@@ -129,8 +177,8 @@ void    init_images(t_game *game)
     game->wall.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/wall.xpm", &game->wall.img_h, &game->wall.img_w);
     if (game->wall.img_ptr== NULL)
 		ft_printf("Couldn't find wall.xpm. Does it exist?");
-    game->player.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/ducky.xpm", &game->player.img_h, &game->player.img_w);
-    if (game->player.img_ptr== NULL)
+    game->player.image.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/ducky.xpm", &game->player.image.img_h, &game->player.image.img_w);
+    if (game->player.image.img_ptr== NULL)
 		ft_printf("Couldn't find ducky.xpm. Does it exist?");
     game->exit.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/exit.xpm", &game->exit.img_h, &game->exit.img_w);
     if (game->exit.img_ptr== NULL)
@@ -149,7 +197,7 @@ void    tile_to_print(t_game *game, int i, int j)
     else if (game->map.map[i][j] == '0')
         game->tile.img_ptr = game->bckgrnd.img_ptr;
     else if (game->map.map[i][j] == 'P')
-        game->tile.img_ptr = game->player.img_ptr;
+        game->tile.img_ptr = game->player.image.img_ptr;
     else if (game->map.map[i][j] == 'E')
         game->tile.img_ptr = game->exit.img_ptr;
     else if (game->map.map[i][j] == 'C')
@@ -220,7 +268,11 @@ void    check_counts(t_game *game)
         while(j < game->map.cols)
         {
             if(game->map.map[i][j] == 'P')
+            {
                 game->map.players++;
+                game->player.i = i;
+                game->player.j = j;
+            }
             else if(game->map.map[i][j] == 'C')
                 game->map.collectibles++;
             else if(game->map.map[i][j] == 'E')

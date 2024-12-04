@@ -37,9 +37,9 @@ typedef struct s_mlxdata
 typedef struct s_player
 {
   t_image image;
-  int  xpos;
-  int  ypos;
-
+  int  i;
+  int  j;
+  int collected;
 }               t_player;
 
 typedef struct s_game
