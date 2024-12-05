@@ -43,6 +43,13 @@ typedef struct s_player
   int moves;
 }               t_player;
 
+typedef struct s_exit
+{
+  t_image image;
+  int i;
+  int j;
+} t_exit;
+
 typedef struct s_game
 {
     t_mlx_data mlx_data;
@@ -52,7 +59,7 @@ typedef struct s_game
     t_image wall;
     t_player player;
     t_image collect;
-    t_image exit;
+    t_exit exit;
     t_image enemy;
     t_image bckgrnd;
 } t_game;

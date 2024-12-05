@@ -10,7 +10,7 @@ void destroy_images(t_game *game)
     mlx_destroy_image(game->mlx_data.mlx, game->wall.img_ptr);
     mlx_destroy_image(game->mlx_data.mlx, game->player.image.img_ptr);
     mlx_destroy_image(game->mlx_data.mlx, game->bckgrnd.img_ptr);
-    mlx_destroy_image(game->mlx_data.mlx, game->exit.img_ptr);
+    mlx_destroy_image(game->mlx_data.mlx, game->exit.image.img_ptr);
     mlx_destroy_image(game->mlx_data.mlx, game->collect.img_ptr);
     mlx_destroy_window(game->mlx_data.mlx, game->mlx_data.win);
 }
@@ -26,7 +26,7 @@ void    free_map(t_game *game)
     free(game->map.map);
 }
 
-int    close_window(t_game *game)
+int     close_window(t_game *game)
 {
     free_map(game);
     destroy_images(game);
@@ -35,17 +35,19 @@ int    close_window(t_game *game)
     exit(0);
 }
 
-void render_exit(t_game *game)
+void    render_exit(t_game *game)
+{
+        mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+                          game->exit.image.img_ptr, (32 * game->exit.j),
+                          (game->exit.i * 32));
+}
+
+void    win_game(t_game *game)
 {
 
 }
 
-void win_game(t_game *game)
-{
-
-}
-
-void collect(t_game *game, int new_i, int new_j)
+void    collect(t_game *game, int new_i, int new_j)
 {
       mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
                               game->bckgrnd.img_ptr, (32 * game->player.j),
@@ -65,7 +67,7 @@ void collect(t_game *game, int new_i, int new_j)
         render_exit(game);
 }
 
-void free_move(t_game *game, int new_i, int new_j)
+void    free_move(t_game *game, int new_i, int new_j)
 {
       mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
                               game->bckgrnd.img_ptr, (32 * game->player.j),
@@ -176,7 +178,7 @@ void    read_map(t_game *game)
     game->map.map[7] = NULL;
 }
 
-void init_player(t_game *game)
+void    init_player(t_game *game)
 {
   game->player.collected = 0;
   game->player.moves = 0;
@@ -196,11 +198,11 @@ void    init_images(t_game *game)
     game->player.image.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/ducky.xpm", &game->player.image.img_h, &game->player.image.img_w);
     if (game->player.image.img_ptr== NULL)
 		ft_printf("Couldn't find ducky.xpm. Does it exist?");
-    game->exit.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/exit.xpm", &game->exit.img_h, &game->exit.img_w);
-    if (game->exit.img_ptr== NULL)
+    game->exit.image.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/exit.xpm", &game->exit.image.img_h, &game->exit.image.img_w);
+    if (game->exit.image.img_ptr== NULL)
 		ft_printf("Couldn't find exit.xpm. Does it exist?");
     game->collect.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx, "./textures/collect.xpm", &game->collect.img_h, &game->collect.img_w);
-    if (game->exit.img_ptr== NULL)
+    if (game->collect.img_ptr== NULL)
 		ft_printf("Couldn't find collect.xpm. Does it exist?");
 }
 
@@ -217,7 +219,7 @@ void    tile_to_print(t_game *game, int i, int j)
     else if (game->map.map[i][j] == 'E')
     {
         if (game->player.collected == game->map.collectibles)
-          game->tile.img_ptr = game->exit.img_ptr;
+          game->tile.img_ptr = game->exit.image.img_ptr;
         else
            game->tile.img_ptr = game->bckgrnd.img_ptr;
     }
@@ -297,7 +299,11 @@ void    check_counts(t_game *game)
             else if(game->map.map[i][j] == 'C')
                 game->map.collectibles++;
             else if(game->map.map[i][j] == 'E')
+            {
                 game->map.exits++;
+                game->exit.i = i;
+                game->exit.j = j;
+            }
             else if(game->map.map[i][j] != '1' && game->map.map[i][j] != '0')
               exit(-1);
             j++;
