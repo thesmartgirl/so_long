@@ -6,42 +6,11 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:39 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/05 18:18:17 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/05 19:56:49 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	free_map(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (i < game->map.rows)
-	{
-		free(game->map.map[i]);
-		i++;
-	}
-	free(game->map.map);
-}
-
-void	read_map(t_game *game)
-{
-	game->map.rows = 7;
-	game->map.cols = 16;
-	game->map.players = 0;
-	game->map.exits = 0;
-	game->map.collectibles = 0;
-	game->map.map = malloc((game->map.rows + 1) * sizeof(char *));
-	game->map.map[0] = ft_strdup("1111111111111111");
-	game->map.map[1] = ft_strdup("1010010000100001");
-	game->map.map[2] = ft_strdup("1000C010C0010101");
-	game->map.map[3] = ft_strdup("1C0000E000010101");
-	game->map.map[4] = ft_strdup("10001000P0010101");
-	game->map.map[5] = ft_strdup("1000001000010101");
-	game->map.map[6] = ft_strdup("1111111111111111");
-	game->map.map[7] = NULL;
-}
 
 void	init_player(t_game *game)
 {
@@ -86,10 +55,15 @@ void	init_images(t_game *game)
 int	main(int argc, char **argv)
 {
 	t_game	game;
-	int		map_fd;
-
-	//  check_args(argc, argv);
-	read_map(&game);
+	int		fd;
+	
+	check_args(argc, argv);
+	fd = open(argv[1], O_RDONLY);
+    if(fd == -1)
+        exit(-1);
+	ft_printf("hello %d\n", fd);
+	init_map(&game);
+	read_map(fd, &game);
 	initialize_mlx(&game);
 	check_map(&game);
 	init_player(&game);

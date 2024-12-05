@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataan <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:47:21 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/05 17:47:22 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/05 19:52:22 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	check_args(int argc, char **argv)
 		exit(-1);
 	}
 	free(tmp);
-	exit(-1);
 }
 
 void	check_borders(t_game *game)

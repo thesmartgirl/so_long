@@ -80,7 +80,6 @@ void    move_vertical(t_game *game, int d);
 void    move_horizontal(t_game *game, int d);
 int     key_inputs(int keysym, t_game *game);
 void    check_args(int argc, char **argv);
-void    read_map(t_game *game);
 void    init_player(t_game *game);
 void    init_images(t_game *game);
 void    tile_to_print(t_game *game, int i, int j);
@@ -89,6 +88,10 @@ int    initialize_mlx(t_game *game);
 void    check_borders(t_game *game);
 void    check_counts(t_game *game);
 void    check_map(t_game *game);
+void	free_map(t_game *game);
+void    check_line(t_game *game, char *line);
+void    init_map(t_game *game);
+void	read_map(int fd, t_game *game);
 
 
 #endif
