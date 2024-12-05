@@ -1,6 +1,11 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+#include <X11/keysym.h>
+#include <mlx.h>
+#include "./libft/libft.h"
+#include <fcntl.h>
+
 typedef enum e_error_code
 {
     no_error = 0,
@@ -80,7 +85,7 @@ void    init_player(t_game *game);
 void    init_images(t_game *game);
 void    tile_to_print(t_game *game, int i, int j);
 void    render_map(t_game *game);
-void    initialize_mlx(t_game *game);
+int    initialize_mlx(t_game *game);
 void    check_borders(t_game *game);
 void    check_counts(t_game *game);
 void    check_map(t_game *game);
