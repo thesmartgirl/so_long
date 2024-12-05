@@ -44,7 +44,9 @@ void    render_exit(t_game *game)
 
 void    win_game(t_game *game)
 {
-
+  printf("You WON the game :)\n");
+  close_window(game);
+  exit(0);
 }
 
 void    collect(t_game *game, int new_i, int new_j)
@@ -95,7 +97,7 @@ void    move_vertical(t_game *game, int d)
          else if (game->map.map[new_row][game->player.j] == 'E' )
          {
            if(game->player.collected == game->map.collectibles)
-                win_game(game, new_row, game->player.j);
+                win_game(game);
            else
                 free_move(game, new_row, game->player.j);
          }
@@ -113,7 +115,7 @@ void    move_horizontal(t_game *game, int d)
         else if (game->map.map[game->player.i][new_col] == 'E' )
         {
            if(game->player.collected == game->map.collectibles)
-                win_game(game, game->player.i, new_col);
+                win_game(game);
            else
                 free_move(game, game->player.i, new_col);
         }
