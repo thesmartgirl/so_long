@@ -4,36 +4,7 @@
 #include "../libft/libft.h"
 #include <fcntl.h>
 
-void destroy_images(t_game *game)
-{
-    mlx_destroy_image(game->mlx_data.mlx, game->border.img_ptr);
-    mlx_destroy_image(game->mlx_data.mlx, game->wall.img_ptr);
-    mlx_destroy_image(game->mlx_data.mlx, game->player.image.img_ptr);
-    mlx_destroy_image(game->mlx_data.mlx, game->bckgrnd.img_ptr);
-    mlx_destroy_image(game->mlx_data.mlx, game->exit.image.img_ptr);
-    mlx_destroy_image(game->mlx_data.mlx, game->collect.img_ptr);
-    mlx_destroy_window(game->mlx_data.mlx, game->mlx_data.win);
-}
 
-void    free_map(t_game *game)
-{
-    int i = 0;
-    while (i < game->map.rows)
-    {
-        free(game->map.map[i]);
-        i++;
-    }
-    free(game->map.map);
-}
-
-int     close_window(t_game *game)
-{
-    free_map(game);
-    destroy_images(game);
-    mlx_destroy_display(game->mlx_data.mlx);
-    free(game->mlx_data.mlx);
-    exit(0);
-}
 
 void    render_exit(t_game *game)
 {
@@ -121,19 +92,15 @@ void    move_horizontal(t_game *game, int d)
         }
 }
 
-int     key_inputs(int keysym, t_game *game)
+void    free_map(t_game *game)
 {
-    if (keysym == XK_Escape)
-        close_window(game);
-    else if (keysym == XK_Up)
-        move_vertical(game, -1);
-    else if (keysym == XK_Down)
-        move_vertical(game, 1);
-    else if (keysym == XK_Right)
-        move_horizontal(game, 1);
-    else if (keysym == XK_Left)
-        move_horizontal(game, -1);
-    return (0);
+    int i = 0;
+    while (i < game->map.rows)
+    {
+        free(game->map.map[i]);
+        i++;
+    }
+    free(game->map.map);
 }
 
 void     check_args(int argc, char **argv)
@@ -249,22 +216,7 @@ void    render_map(t_game *game)
     }
 }
 
-void     initialize_mlx(t_game *game)
-{
-    game->mlx_data.mlx = mlx_init();
-	if (!game->mlx_data.mlx)
-		exit (-1);
-	game->mlx_data.win = mlx_new_window(game->mlx_data.mlx,
-								game->map.cols * 32,
-								game->map.rows * 32,
-								"Ducky Walk");
-	if (!game->mlx_data.win)
-    {
-        mlx_destroy_display(game->mlx_data.mlx);
-        free(game->mlx_data.mlx);
-        exit (-1);
-    }
-}
+
 
 void    check_borders(t_game *game)
 {
@@ -316,7 +268,7 @@ void    check_counts(t_game *game)
         exit(-1);
 }
 
-int     check_map(t_game *game)
+void     check_map(t_game *game)
 {
     check_borders(game);
     check_counts(game);

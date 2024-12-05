@@ -64,5 +64,26 @@ typedef struct s_game
     t_image bckgrnd;
 } t_game;
 
+void    destroy_images(t_game *game);
+void    free_map(t_game *game);
+int     close_window(t_game *game);
+void    render_exit(t_game *game);
+void    win_game(t_game *game);
+void    collect(t_game *game, int new_i, int new_j);
+void    free_move(t_game *game, int new_i, int new_j);
+void    move_vertical(t_game *game, int d);
+void    move_horizontal(t_game *game, int d);
+int     key_inputs(int keysym, t_game *game);
+void    check_args(int argc, char **argv);
+void    read_map(t_game *game);
+void    init_player(t_game *game);
+void    init_images(t_game *game);
+void    tile_to_print(t_game *game, int i, int j);
+void    render_map(t_game *game);
+void    initialize_mlx(t_game *game);
+void    check_borders(t_game *game);
+void    check_counts(t_game *game);
+void    check_map(t_game *game);
+
 
 #endif
