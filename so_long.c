@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataan <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:39 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/05 17:46:41 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/05 18:18:17 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	read_map(t_game *game)
 {
 	game->map.rows = 7;
 	game->map.cols = 16;
-	// ft_printf("read_map %d %d \n", game->map.rows, game-> map.cols);
 	game->map.players = 0;
 	game->map.exits = 0;
 	game->map.collectibles = 0;
@@ -55,7 +54,10 @@ void	init_images(t_game *game)
 	game->border.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx,
 			"./textures/border.xpm", &game->border.img_h, &game->border.img_w);
 	if (game->border.img_ptr == NULL)
+	{
 		ft_printf("Couldn't find border.xpm. Does it exist?");
+		exit(-1);
+	}
 	game->bckgrnd.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx,
 			"./textures/grass.xpm", &game->bckgrnd.img_h, &game->bckgrnd.img_w);
 	if (game->bckgrnd.img_ptr == NULL)
