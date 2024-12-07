@@ -2,7 +2,7 @@
 # define SO_LONG_H
 
 #include <X11/keysym.h>
-#include <mlx.h>
+#include "../mlx/mlx.h"
 #include "./libft/libft.h"
 #include <fcntl.h>
 
