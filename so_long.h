@@ -22,7 +22,6 @@ typedef struct s_map
 	int			exits;
 	int			players;
 	int			collectibles;
-
 }				t_map;
 
 typedef struct s_image

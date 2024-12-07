@@ -28,7 +28,6 @@ void	free_map(t_game *game)
 void	check_line(t_game *game, char *line, int line_no)
 {
 	int	j;
-
 	j = 0;
 	while (j < ft_strlen(line))
 	{
@@ -48,8 +47,8 @@ void	check_line(t_game *game, char *line, int line_no)
 		}
 		else if (line[j] == 'C')
 			game->map.collectibles++;
-		else if (line[j] != '0' && line[j] != '1')
-			exit(-1);
+		else if (line[j] != '0' && line[j] != '1'){
+			exit(-1);}
 		j++;
 	}
 }

@@ -59,40 +59,35 @@ void	check_borders(t_game *game)
 	}
 }
 
-void dfs( char **map, int i, int j, int *exits, int *coins)
+void dfs(t_game *game, int i, int j, int *exits, int *coins)
 {
-    if (map[i][j] == 'F' || i == game->map.rows || j == game->map.cols || i == 0 || j == 0 || map[i][j] == '1')
+    if (game->map.map[i][j] == 'F' || i == game->map.rows || j == game->map.cols || i == 0 || j == 0 || game->map.map[i][j] == '1')
         return;
-    if(map[i][j] == 'E')
+    if(game->map.map[i][j] == 'E')
         *(exits) += 1;
-    if(map[i][j] == 'C')
+    if(game->map.map[i][j] == 'C')
         *(coins) += 1;
-    map[i][j] = 'F';
-    dfs(map, i - 1, j, exits, coins);
-    dfs(map, i, j + 1, exits, coins);
-    dfs(map, i + 1, j, exits, coins);
-    dfs(map, i, j - 1, exits, coins);
+    game->map.map[i][j] = 'F';
+    dfs(game, i - 1, j, exits, coins);
+    dfs(game, i, j + 1, exits, coins);
+    dfs(game, i + 1, j, exits, coins);
+    dfs(game, i, j - 1, exits, coins);
 }
 
-void check_valid_path(char **map, int i, int j, char newClr)
+void check_valid_path(t_game *game)
 {
-	    int prevClr;
 	    int exits;
 	    int coins;
 
 			exits=0;
 	    coins=0;
-	    dfs(map, i, j, &exits, &coins);
-	    printf("exits %d, coins %d\n", exits, coins);
-	}
+	    dfs(game, game->player.i, game->player.j, &exits, &coins);
+	    ft_printf("exits %d, coins %d\n", exits, coins);
 }
 
 void	check_map(t_game *game)
 {
 	check_borders(game);
 	// check_nulls()???
-	check_valid_path(game->map.map,
-								game->player.i,
-								game->player.j,
-								'F');
+	check_valid_path(game);
 }
