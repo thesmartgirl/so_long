@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:44 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/05 18:17:43 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/07 19:21:34 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	collect(t_game *game, int new_i, int new_j)
 	game->player.collected++;
 	game->player.moves++;
 	ft_printf("collectibles = %d\n", game->player.collected);
-	ft_printf("moves = %d\n", game->player.moves);
 	mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
 		game->player.image.img_ptr, (32 * game->player.j), (game->player.i
 			* 32));

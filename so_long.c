@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:39 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/05 19:56:49 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/07 19:21:34 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,10 @@ int	main(int argc, char **argv)
 {
 	t_game	game;
 	int		fd;
-	
+
 	check_args(argc, argv);
-	fd = open(argv[1], O_RDONLY);
-    if(fd == -1)
-        exit(-1);
-	ft_printf("hello %d\n", fd);
 	init_map(&game);
-	read_map(fd, &game);
+	read_map(argv[1], &game);
 	initialize_mlx(&game);
 	check_map(&game);
 	init_player(&game);

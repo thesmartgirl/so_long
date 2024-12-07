@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataan <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:47:11 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/05 17:47:12 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/07 19:11:11 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	render_map(t_game *game)
 
 void	tile_to_print(t_game *game, int i, int j)
 {
-	// ft_printf("tile_to_print %d %d %d %d\n", i, j, game->map.rows,game-> map.cols);
 	if (i == 0 || i == game->map.rows - 1 || j == 0 || j == game->map.cols - 1)
 		game->tile.img_ptr = game->border.img_ptr;
 	else if (game->map.map[i][j] == '1')
