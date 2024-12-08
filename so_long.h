@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/08 15:59:14 by ataan             #+#    #+#             */
+/*   Updated: 2024/12/08 18:58:01 by ataan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
@@ -29,7 +41,6 @@ typedef struct s_image
 	void		*img_ptr;
 	int			img_h;
 	int			img_w;
-
 }				t_image;
 
 typedef struct s_mlxdata
@@ -57,6 +68,8 @@ typedef struct s_exit
 typedef struct s_game
 {
 	t_mlx_data	mlx_data;
+	int			images_init;
+	char 		*msg;
 	t_map		map;
 	t_image		tile;
 	t_image		border;
@@ -69,8 +82,8 @@ typedef struct s_game
 }				t_game;
 
 void			destroy_images(t_game *game);
-void			free_map(t_game *game);
-int				close_window(t_game *game);
+int				close_window(t_game *game, char *msg);
+int				close_x(t_game *game);
 void			render_exit(t_game *game);
 void			win_game(t_game *game);
 void			collect(t_game *game, int new_i, int new_j);
@@ -85,9 +98,8 @@ void			tile_to_print(t_game *game, int i, int j);
 void			render_map(t_game *game);
 int				initialize_mlx(t_game *game);
 void			check_borders(t_game *game);
-void			check_counts(t_game *game);
 void			check_map(t_game *game);
-void			free_map(t_game *game);
+void			free_map(t_map map);
 void			check_line(t_game *game, char *line, int line_no);
 void			init_map(t_game *game);
 void			read_map(char *file, t_game *game);

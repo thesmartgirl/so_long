@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:47:11 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/07 19:11:11 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/08 14:14:32 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,9 @@ void	tile_to_print(t_game *game, int i, int j)
 	}
 	else if (game->map.map[i][j] == 'C')
 		game->tile.img_ptr = game->collect.img_ptr;
+	else
+	{
+		game->tile.img_ptr = NULL;
+		exit(-1);
+	}
 }
