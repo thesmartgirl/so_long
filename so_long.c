@@ -43,14 +43,18 @@ int	main(int argc, char **argv)
 
 	game.images_init = 0;
 	check_args(argc, argv);
+
 	init_map(&game);
 	map_read(argv[1], &game);
 	map_save(argv[1], &game);
 	map_check(&game);
+
 	init_mlx(&game);
-	init_player(&game);
 	render_map(&game);
+
+	init_player(&game);
 	mlx_hook(game.mlx_data.win, 02, 03, key_inputs, &game);
+
 	mlx_hook(game.mlx_data.win, 17, 0, close_x, &game);
 	mlx_loop(game.mlx_data.mlx);
 	return (0);

@@ -12,6 +12,20 @@
 
 #include "so_long.h"
 
+void	set_player(t_game *game, int i, int j)
+{
+	game->map.players++;
+	game->player.i = i;
+	game->player.j = j;
+}
+
+void	set_exit(t_game *game, int i, int j)
+{
+	game->map.exits++;
+	game->exit.i = i;
+	game->exit.j = j;
+}
+
 void	map_error(t_map map, int err)
 {
 	if (err == 1)

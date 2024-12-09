@@ -63,6 +63,33 @@ int	map_valid_path_check(t_game *game, t_map tmp_map)
 	return (map_dfs_check(game, tmp_map, game->player.i, game->player.j));
 }
 
+void	map_char_check(t_game *game)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < game->map.rows)
+	{
+		if ((int)ft_strlen(game->map.map[i]) != game->map.cols)
+			map_error(game->map, 2);
+		j = 0;
+		while (j < game->map.cols)
+		{
+			if (game->map.map[i][j] == 'P')
+				set_player(game, i, j);
+			else if (game->map.map[i][j] == 'E')
+				set_exit(game, i, j);
+			else if (game->map.map[i][j] == 'C')
+				game->map.collectibles++;
+			else if (game->map.map[i][j] != '0' && game->map.map[i][j] != '1')
+				map_error(game->map, 3);
+			j++;
+		}
+		i++;
+	}
+}
+
 void	map_check(t_game *game)
 {
 	t_map	tmp_map;

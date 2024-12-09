@@ -12,6 +12,10 @@
 
 #include "so_long.h"
 
+/*
+	called by the mlx hook, 
+	decides what to do based on keysym
+*/
 int	key_inputs(int keysym, t_game *game)
 {
 	if (keysym == XK_Escape)
@@ -27,39 +31,13 @@ int	key_inputs(int keysym, t_game *game)
 	return (0);
 }
 
-void	collect(t_game *game, int new_i, int new_j)
-{
-	mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
-		game->bckgrnd.img_ptr, (32 * game->player.j), (game->player.i * 32));
-	game->map.map[game->player.i][game->player.j] = '0';
-	game->player.i = new_i;
-	game->player.j = new_j;
-	game->map.map[game->player.i][game->player.j] = 'P';
-	game->player.collected++;
-	game->player.moves++;
-	ft_printf("collectibles = %d\n", game->player.collected);
-	mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
-		game->player.image.img_ptr, (32 * game->player.j), (game->player.i
-			* 32));
-	if (game->player.collected == game->map.collectibles)
-		render_exit(game);
-}
-
-void	free_move(t_game *game, int new_i, int new_j)
-{
-	mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
-		game->bckgrnd.img_ptr, (32 * game->player.j), (game->player.i * 32));
-	game->map.map[game->player.i][game->player.j] = '0';
-	game->player.i = new_i;
-	game->player.j = new_j;
-	game->map.map[game->player.i][game->player.j] = 'P';
-	game->player.moves++;
-	ft_printf("moves = %d\n", game->player.moves);
-	mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
-		game->player.image.img_ptr, (32 * game->player.j), (game->player.i
-			* 32));
-}
-
+/*
+	moves the player up/down,
+	depending on map character and counters, calls one of the functions:
+		free_move
+		collect
+		win_game
+*/
 void	move_vertical(t_game *game, int d)
 {
 	int	new_row;
@@ -78,6 +56,13 @@ void	move_vertical(t_game *game, int d)
 	}
 }
 
+/*
+	moves the player right/left,
+	depending on map character and counters, calls one of the functions:
+		free_move
+		collect
+		win_game
+*/
 void	move_horizontal(t_game *game, int d)
 {
 	int	new_col;
@@ -94,4 +79,52 @@ void	move_horizontal(t_game *game, int d)
 		else
 			free_move(game, game->player.i, new_col);
 	}
+}
+
+/*
+	used when a collectible is found.
+	renders previous position,
+	updates player position,
+	updates and displays collectibles and moves counters,
+	renders new player position
+*/
+void	collect(t_game *game, int new_i, int new_j)
+{
+	mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+		game->bckgrnd.img_ptr, (32 * game->player.j), (game->player.i * 32));
+	game->map.map[game->player.i][game->player.j] = '0';
+	game->player.i = new_i;
+	game->player.j = new_j;
+	game->map.map[game->player.i][game->player.j] = 'P';
+	game->player.collected++;
+	game->player.moves++;
+	ft_printf("collectibles = %d\n", game->player.collected);
+	ft_printf("moves = %d\n", game->player.moves);
+	mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+		game->player.image.img_ptr, (32 * game->player.j), (game->player.i
+			* 32));
+	if (game->player.collected == game->map.collectibles)
+		render_exit(game);
+}
+
+/*
+	for valid, normal moves.  
+	renders previous position,
+	updates player position,
+	updates and displays moves counter,
+	renders new player position
+*/
+void	free_move(t_game *game, int new_i, int new_j)
+{
+	mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+		game->bckgrnd.img_ptr, (32 * game->player.j), (game->player.i * 32));
+	game->map.map[game->player.i][game->player.j] = '0';
+	game->player.i = new_i;
+	game->player.j = new_j;
+	game->map.map[game->player.i][game->player.j] = 'P';
+	game->player.moves++;
+	ft_printf("moves = %d\n", game->player.moves);
+	mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+		game->player.image.img_ptr, (32 * game->player.j), (game->player.i
+			* 32));
 }

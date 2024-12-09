@@ -69,7 +69,6 @@ typedef struct s_game
 	t_player	player;
 	t_image		collect;
 	t_exit		exit;
-	t_image		enemy;
 	t_image		bckgrnd;
 }				t_game;
 
@@ -93,7 +92,7 @@ int				init_mlx(t_game *game);
 void			map_border_check(t_game *game);
 void			map_check(t_game *game);
 void			map_free(t_map map);
-void			map_pre_check(t_game *game);
+void			map_char_check(t_game *game);
 void			map_read(char *file, t_game *game);
 void			map_save(char *file, t_game *game);
 void			map_error(t_map map, int err);
