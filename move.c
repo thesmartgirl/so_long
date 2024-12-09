@@ -6,11 +6,26 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:44 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/07 19:21:34 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/09 17:49:23 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+int	key_inputs(int keysym, t_game *game)
+{
+	if (keysym == XK_Escape)
+		close_window(game, "Normal Exit\n");
+	else if (keysym == XK_Up)
+		move_vertical(game, -1);
+	else if (keysym == XK_Down)
+		move_vertical(game, 1);
+	else if (keysym == XK_Right)
+		move_horizontal(game, 1);
+	else if (keysym == XK_Left)
+		move_horizontal(game, -1);
+	return (0);
+}
 
 void	collect(t_game *game, int new_i, int new_j)
 {

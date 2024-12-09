@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 15:59:14 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/08 18:58:01 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/09 15:20:05 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,6 @@
 # include <X11/keysym.h>
 # include <fcntl.h>
 # include <mlx.h>
-
-typedef enum e_error_code
-{
-	no_error = 0,
-	general_error = -1,
-	arg_err = -2,
-	map_error = -3,
-}				t_error_code;
 
 typedef struct s_map
 {
@@ -69,7 +61,7 @@ typedef struct s_game
 {
 	t_mlx_data	mlx_data;
 	int			images_init;
-	char 		*msg;
+	char		*msg;
 	t_map		map;
 	t_image		tile;
 	t_image		border;
@@ -94,15 +86,16 @@ int				key_inputs(int keysym, t_game *game);
 void			check_args(int argc, char **argv);
 void			init_player(t_game *game);
 void			init_images(t_game *game);
+void			init_map(t_game *game);
 void			tile_to_print(t_game *game, int i, int j);
 void			render_map(t_game *game);
-int				initialize_mlx(t_game *game);
-void			check_borders(t_game *game);
-void			check_map(t_game *game);
-void			free_map(t_map map);
-void			check_line(t_game *game, char *line, int line_no);
-void			init_map(t_game *game);
-void			read_map(char *file, t_game *game);
-void			save_map(char *file, t_game *game);
-
+int				init_mlx(t_game *game);
+void			map_border_check(t_game *game);
+void			map_check(t_game *game);
+void			map_free(t_map map);
+void			map_pre_check(t_game *game);
+void			map_read(char *file, t_game *game);
+void			map_save(char *file, t_game *game);
+void			map_error(t_map map, int err);
+t_map			map_copy(t_game *game);
 #endif

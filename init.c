@@ -6,11 +6,27 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:40:37 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/08 18:40:42 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/09 14:56:24 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+int	init_mlx(t_game *game)
+{
+	game->mlx_data.mlx = mlx_init();
+	if (!game->mlx_data.mlx)
+		return (-1);
+	game->mlx_data.win = mlx_new_window(game->mlx_data.mlx, game->map.cols * 32,
+			game->map.rows * 32, "Ducky Walk");
+	if (!game->mlx_data.win)
+	{
+		mlx_destroy_display(game->mlx_data.mlx);
+		free(game->mlx_data.mlx);
+		return (-1);
+	}
+	return (0);
+}
 
 void	init_player(t_game *game)
 {
