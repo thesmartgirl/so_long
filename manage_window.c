@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_handlers.c                                     :+:      :+:    :+:   */
+/*   manage_window.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:57 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/09 17:41:07 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/10 17:19:00 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	close_x(t_game *game)
 int	close_window(t_game *game, char *msg)
 {
 	map_free(game->map);
-	if (game->images_init == 1)
 	{
 		destroy_images(game);
 		mlx_destroy_display(game->mlx_data.mlx);
@@ -54,5 +53,5 @@ int	close_window(t_game *game, char *msg)
 
 void	win_game(t_game *game)
 {
-	close_window(game, "You WON the game :)\n");
+	close_window(game, "Congratulations!! You WON the game :)\n");
 }

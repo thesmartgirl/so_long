@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 15:59:14 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/09 15:20:05 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/10 19:24:31 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_exit
 typedef struct s_game
 {
 	t_mlx_data	mlx_data;
-	int			images_init;
 	char		*msg;
 	t_map		map;
 	t_image		tile;
@@ -72,29 +71,28 @@ typedef struct s_game
 	t_image		bckgrnd;
 }				t_game;
 
-void			destroy_images(t_game *game);
-int				close_window(t_game *game, char *msg);
-int				close_x(t_game *game);
-void			render_exit(t_game *game);
-void			win_game(t_game *game);
-void			collect(t_game *game, int new_i, int new_j);
-void			free_move(t_game *game, int new_i, int new_j);
-void			move_vertical(t_game *game, int d);
-void			move_horizontal(t_game *game, int d);
-int				key_inputs(int keysym, t_game *game);
-void			check_args(int argc, char **argv);
+int				init_mlx(t_game *game);
 void			init_player(t_game *game);
 void			init_images(t_game *game);
 void			init_map(t_game *game);
-void			tile_to_print(t_game *game, int i, int j);
-void			render_map(t_game *game);
-int				init_mlx(t_game *game);
-void			map_border_check(t_game *game);
+void			destroy_images(t_game *game);
+int				close_x(t_game *game);
+int				close_window(t_game *game, char *msg);
+void			win_game(t_game *game);
 void			map_check(t_game *game);
-void			map_free(t_map map);
-void			map_char_check(t_game *game);
 void			map_read(char *file, t_game *game);
 void			map_save(char *file, t_game *game);
+void			set_player(t_game *game, int i, int j);
+void			set_exit(t_game *game, int i, int j);
 void			map_error(t_map map, int err);
+void			map_free(t_map map);
 t_map			map_copy(t_game *game);
+int				key_inputs(int keysym, t_game *game);
+void			move_vertical(t_game *game, int d);
+void			move_horizontal(t_game *game, int d);
+void			collect(t_game *game, int new_i, int new_j);
+void			free_move(t_game *game, int new_i, int new_j);
+void			render_exit(t_game *game);
+void			render_map(t_game *game);
+
 #endif

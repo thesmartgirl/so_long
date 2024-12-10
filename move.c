@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:44 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/09 17:49:23 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/10 20:19:22 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,23 +86,14 @@ void	move_horizontal(t_game *game, int d)
 	renders previous position,
 	updates player position,
 	updates and displays collectibles and moves counters,
-	renders new player position
+	renders new player position,
+	render exit if needed
 */
 void	collect(t_game *game, int new_i, int new_j)
 {
-	mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
-		game->bckgrnd.img_ptr, (32 * game->player.j), (game->player.i * 32));
-	game->map.map[game->player.i][game->player.j] = '0';
-	game->player.i = new_i;
-	game->player.j = new_j;
-	game->map.map[game->player.i][game->player.j] = 'P';
+	free_move(game, new_i, new_j);
 	game->player.collected++;
-	game->player.moves++;
 	ft_printf("collectibles = %d\n", game->player.collected);
-	ft_printf("moves = %d\n", game->player.moves);
-	mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
-		game->player.image.img_ptr, (32 * game->player.j), (game->player.i
-			* 32));
 	if (game->player.collected == game->map.collectibles)
 		render_exit(game);
 }

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   maps2.c                                            :+:      :+:    :+:   */
+/*   map_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:47:21 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/09 17:43:14 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/10 19:18:06 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	map_border_check(t_game *game)
+static void	map_border_check(t_game *game)
 {
 	int	i;
 	int	j;
@@ -34,36 +34,7 @@ void	map_border_check(t_game *game)
 	}
 }
 
-int	map_dfs_check(t_game *game, t_map map, int i, int j)
-{
-	static int	exits;
-	static int	collects;
-
-	if (map.map[i][j] == 'F' || i == map.rows || j == map.cols || i == 0
-		|| j == 0 || map.map[i][j] == '1')
-		return (0);
-	if (map.map[i][j] == 'E')
-		exits += 1;
-	if (map.map[i][j] == 'C')
-		collects += 1;
-	map.map[i][j] = 'F';
-	map_dfs_check(game, map, i - 1, j);
-	map_dfs_check(game, map, i, j + 1);
-	map_dfs_check(game, map, i + 1, j);
-	map_dfs_check(game, map, i, j - 1);
-	if (exits != 1)
-		return (-1);
-	if (collects != game->map.collectibles)
-		return (-1);
-	return (0);
-}
-
-int	map_valid_path_check(t_game *game, t_map tmp_map)
-{
-	return (map_dfs_check(game, tmp_map, game->player.i, game->player.j));
-}
-
-void	map_char_check(t_game *game)
+static void	map_char_check(t_game *game)
 {
 	int	i;
 	int	j;
@@ -90,13 +61,42 @@ void	map_char_check(t_game *game)
 	}
 }
 
+static int	map_dfs_check(t_game *game, t_map map, int i, int j)
+{
+	static int	exits;
+	static int	collects;
+
+	if (map.map[i][j] == 'F' || i == map.rows || j == map.cols || i == 0
+		|| j == 0 || map.map[i][j] == '1')
+		return (0);
+	if (map.map[i][j] == 'E')
+		exits += 1;
+	if (map.map[i][j] == 'C')
+		collects += 1;
+	map.map[i][j] = 'F';
+	map_dfs_check(game, map, i - 1, j);
+	map_dfs_check(game, map, i, j + 1);
+	map_dfs_check(game, map, i + 1, j);
+	map_dfs_check(game, map, i, j - 1);
+	if (exits != 1)
+		return (-1);
+	if (collects != game->map.collectibles)
+		return (-1);
+	return (0);
+}
+
+static int	map_valid_path_check(t_game *game, t_map tmp_map)
+{
+	return (map_dfs_check(game, tmp_map, game->player.i, game->player.j));
+}
+
 void	map_check(t_game *game)
 {
 	t_map	tmp_map;
 	int		valid_path;
 
-	map_pre_check(game);
 	map_border_check(game);
+	map_char_check(game);
 	if (game->map.exits != 1)
 		map_error(game->map, 4);
 	else if (game->map.players != 1)

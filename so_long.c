@@ -6,13 +6,13 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:46:39 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/09 14:56:24 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/10 19:24:31 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	check_args(int argc, char **argv)
+static void	check_args(int argc, char **argv)
 {
 	char	*tmp;
 
@@ -41,20 +41,15 @@ int	main(int argc, char **argv)
 {
 	t_game	game;
 
-	game.images_init = 0;
 	check_args(argc, argv);
-
 	init_map(&game);
 	map_read(argv[1], &game);
 	map_save(argv[1], &game);
 	map_check(&game);
-
 	init_mlx(&game);
-	render_map(&game);
-
 	init_player(&game);
+	render_map(&game);
 	mlx_hook(game.mlx_data.win, 02, 03, key_inputs, &game);
-
 	mlx_hook(game.mlx_data.win, 17, 0, close_x, &game);
 	mlx_loop(game.mlx_data.mlx);
 	return (0);

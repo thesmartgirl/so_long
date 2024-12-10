@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:47:11 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/08 14:14:32 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/10 20:19:49 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,7 @@ void	render_exit(t_game *game)
 		game->exit.image.img_ptr, (32 * game->exit.j), (game->exit.i * 32));
 }
 
-void	render_map(t_game *game)
-{
-	int	i;
-	int	j;
-
-	init_images(game);
-	i = 0;
-	while (i < game->map.rows)
-	{
-		j = 0;
-		while (j < game->map.cols)
-		{
-			tile_to_print(game, i, j);
-			mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
-				game->tile.img_ptr, (32 * j), (i * 32));
-			j++;
-		}
-		i++;
-	}
-}
-
-void	tile_to_print(t_game *game, int i, int j)
+static void	tile_to_print(t_game *game, int i, int j)
 {
 	if (i == 0 || i == game->map.rows - 1 || j == 0 || j == game->map.cols - 1)
 		game->tile.img_ptr = game->border.img_ptr;
@@ -63,5 +42,26 @@ void	tile_to_print(t_game *game, int i, int j)
 	{
 		game->tile.img_ptr = NULL;
 		exit(-1);
+	}
+}
+
+void	render_map(t_game *game)
+{
+	int	i;
+	int	j;
+
+	init_images(game);
+	i = 0;
+	while (i < game->map.rows)
+	{
+		j = 0;
+		while (j < game->map.cols)
+		{
+			tile_to_print(game, i, j);
+			mlx_put_image_to_window(game->mlx_data.mlx, game->mlx_data.win,
+				game->tile.img_ptr, (32 * j), (i * 32));
+			j++;
+		}
+		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ataan <ataan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:40:37 by ataan             #+#    #+#             */
-/*   Updated: 2024/12/09 14:56:24 by ataan            ###   ########.fr       */
+/*   Updated: 2024/12/10 19:12:33 by ataan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	init_player(t_game *game)
 
 void	init_images(t_game *game)
 {
-	game->images_init = 1;
 	game->border.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx,
 			"./textures/border.xpm", &game->border.img_h, &game->border.img_w);
 	game->bckgrnd.img_ptr = mlx_xpm_file_to_image(game->mlx_data.mlx,
